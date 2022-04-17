@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 export default function Lab2() {
+    let emailPattern = '([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
+    let phonePattern = '^01[0125][0-9]{8}$'
     const [isLogin, setISLogin] = useState(true);
     const [toHome, setToHome] = useState(false);
     const [togglePassword, setTogglePassword] = useState("fa-solid fa-eye-slash input-group-append input-group-text")
@@ -40,22 +42,22 @@ export default function Lab2() {
             setLoginError({
                 ...loginError,
                 emailError: e.target.value.length === 0 ? 'This field is required'
-                    : e.target.value.length < 3 ? "min length us 3 characters"
-                        : e.target.value.length > 10 ? "min length us 10 characters"
-                            : e.target.value.length > 100 ? "max length us 100 characters"
-                                : null,
+                    : !e.target.value.match(emailPattern) ? 'invalid email'
+                        : null,
             })
         }
         if (e.target.id === 'password') {
             setLoginError({
                 ...loginError,
                 passwordError: e.target.value.length === 0 ? 'This field is required'
-                    : e.target.value.length < 3 ? "min length us 3 characters"
-                        : e.target.value.length > 10 ? "min length us 10 characters"
-                            : e.target.value.length > 100 ? "max length us 100 characters"
-                                : null,
+                    : e.target.value.length <= 8 ? "Your Password Must Contain At Least 8 Characters!"
+                        : !(/[A-Z]/.test(e.target.value)) ? "Your Password Must Contain At Least 1 Capital Letter!"
+                            : !(/[0-9]/.test(e.target.value)) ? "Your Password Must Contain At Least 1 Number!"
+                                : !(/[a-z]/.test(e.target.value)) ? "Your Password Must Contain At Least 1 Lowercase Letter!"
+                                    : null,
             })
         }
+
     }
     const handelRegistrationForm = (e) => {
         setRegistrationForm({
@@ -76,40 +78,36 @@ export default function Lab2() {
             setRegistrationError({
                 ...registrationError,
                 emailError: e.target.value.length === 0 ? 'This field is required'
-                    : e.target.value.length < 3 ? "min length us 3 characters"
-                        : e.target.value.length > 10 ? "min length us 10 characters"
-                            : e.target.value.length > 100 ? "max length us 100 characters"
-                                : null,
+                    : !e.target.value.match(emailPattern) ? 'invalid email'
+                        : null,
             })
         }
         if (e.target.id === 'phone') {
             setRegistrationError({
                 ...registrationError,
-                phoneError: e.target.value.length === 0 ? 'This field is required'
-                    : e.target.value.length < 3 ? "min length us 3 characters"
-                        : e.target.value.length > 10 ? "min length us 10 characters"
-                            : e.target.value.length > 100 ? "max length us 100 characters"
-                                : null,
+                phoneError:
+                    e.target.value.length === 0 ? 'This field is required'
+                        : !e.target.value.match(phonePattern) ? 'invalid phone number'
+                            : null,
             })
         }
         if (e.target.id === 'password') {
             setRegistrationError({
                 ...registrationError,
                 passwordError: e.target.value.length === 0 ? 'This field is required'
-                    : e.target.value.length < 3 ? "min length us 3 characters"
-                        : e.target.value.length > 10 ? "min length us 10 characters"
-                            : e.target.value.length > 100 ? "max length us 100 characters"
-                                : null,
+                    : e.target.value.length <= 8 ? "Your Password Must Contain At Least 8 Characters!"
+                        : !(/[A-Z]/.test(e.target.value)) ? "Your Password Must Contain At Least 1 Capital Letter!"
+                            : !(/[0-9]/.test(e.target.value)) ? "Your Password Must Contain At Least 1 Number!"
+                                : !(/[a-z]/.test(e.target.value)) ? "Your Password Must Contain At Least 1 Lowercase Letter!"
+                                    : null,
             })
         }
         if (e.target.id === 'confirmPassword') {
             setRegistrationError({
                 ...registrationError,
                 confirmPasswordError: e.target.value.length === 0 ? 'This field is required'
-                    : e.target.value.length < 3 ? "min length us 3 characters"
-                        : e.target.value.length > 10 ? "min length us 10 characters"
-                            : e.target.value.length > 100 ? "max length us 100 characters"
-                                : null,
+                    : e.target.value !== registrationForm.password ? "confirm password does not match"
+                        : null,
             })
         }
     }
@@ -118,7 +116,39 @@ export default function Lab2() {
         setTogglePassword("fa-solid fa-eye-slash input-group-append input-group-text")
     }
     function goToHome(value) {
-        setToHome(value)
+        // if (loginForm.email.length === 0 || loginForm.password.length === 0) {
+        //     console.log("asdasdasd");
+        //     setLoginError({
+        //         ...loginError,
+        //         emailError: 'This field is required',
+        //         passwordError: 'This field is required',
+        //     })
+        // }
+
+        if (
+            (
+                loginForm.email.length > 0 &&
+                loginForm.password.length > 0 &&
+                loginError.emailError === null &&
+                loginError.passwordError === null
+            )
+            ||
+            (
+                registrationForm.userName > 0 &&
+                registrationForm.email > 0 &&
+                registrationForm.phone > 0 &&
+                registrationForm.password > 0 &&
+                registrationForm.confirmPassword > 0 &&
+                registrationError.userNameError === null &&
+                registrationError.emailError === null &&
+                registrationError.phoneError === null &&
+                registrationError.passwordError === null &&
+                registrationError.confirmPasswordError === null
+
+            )
+        ) {
+            setToHome(value)
+        }
     }
 
     function showPassword(elementID, isPassword = false) {
