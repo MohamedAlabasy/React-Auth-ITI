@@ -164,9 +164,8 @@ export default function Lab2() {
     return (
         <>
             {toHome ? (
-                <div className="login-page">
-                    <input type="text" placeholder="name" name="name" />
-                    <button onClick={() => goToHome(false)} >login</button>
+                <div className='my-5 text-center'>
+                    <button className='btn btn-danger' onClick={() => goToHome(false)} >log out</button>
                 </div>
             ) :
                 // 
