@@ -115,7 +115,7 @@ export default function Lab2() {
         setISLogin(!isLogin)
         setTogglePassword("fa-solid fa-eye-slash input-group-append input-group-text")
     }
-    function goToHome(value) {
+    function goToHome(value, logout = false) {
         // if (loginForm.email.length === 0 || loginForm.password.length === 0) {
         //     console.log("asdasdasd");
         //     setLoginError({
@@ -149,6 +149,16 @@ export default function Lab2() {
         ) {
             setToHome(value)
         }
+
+
+        if (logout) {
+            setLoginForm({
+                email: ""
+            })
+            setRegistrationForm({
+                userName: ""
+            })
+        }
     }
 
     function showPassword(elementID, isPassword = false) {
@@ -165,7 +175,7 @@ export default function Lab2() {
         <>
             {toHome ? (
                 <div className='my-5 text-center'>
-                    <button className='btn btn-danger' onClick={() => goToHome(false)} >log out</button>
+                    <button className='btn btn-danger' onClick={() => goToHome(false, true)} >log out</button>
                 </div>
             ) :
                 // 
