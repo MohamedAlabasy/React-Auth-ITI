@@ -116,14 +116,29 @@ export default function Lab2() {
         setTogglePassword("fa-solid fa-eye-slash input-group-append input-group-text")
     }
     function goToHome(value, logout = false) {
-        // if (loginForm.email.length === 0 || loginForm.password.length === 0) {
-        //     console.log("asdasdasd");
-        //     setLoginError({
-        //         ...loginError,
-        //         emailError: 'This field is required',
-        //         passwordError: 'This field is required',
-        //     })
-        // }
+        if (loginForm.email.length === 0 || loginForm.password.length === 0) {
+            setLoginError({
+                ...loginError,
+                emailError: 'This field is required',
+                passwordError: 'This field is required',
+            })
+        }
+        if (
+            registrationForm.email.length === 0 ||
+            registrationForm.password.length === 0 ||
+            registrationForm.userName.length === 0 ||
+            registrationForm.phone.length === 0 ||
+            registrationForm.confirmPassword.length === 0
+        ) {
+            setRegistrationError({
+                ...registrationError,
+                userNameError: "This field is required",
+                emailError: "This field is required",
+                phoneError: "This field is required",
+                passwordError: "This field is required",
+                confirmPasswordError: "This field is required"
+            })
+        }
 
         if (
             (
@@ -165,7 +180,8 @@ export default function Lab2() {
         let password = document.getElementById(elementID);
         if (password.type === "password") {
             password.type = "text";
-            isPassword ? setConfTogglePassword("fa-solid fa-eye input-group-append input-group-text") : setTogglePassword("fa-solid fa-eye input-group-append input-group-text")
+            isPassword ? setConfTogglePassword("fa-solid fa-eye input-group-append input-group-text")
+                : setTogglePassword("fa-solid fa-eye input-group-append input-group-text")
         } else {
             password.type = "password";
             isPassword ? setConfTogglePassword("fa-solid fa-eye-slash input-group-append input-group-text") : setTogglePassword("fa-solid fa-eye-slash input-group-append input-group-text")
@@ -196,7 +212,6 @@ export default function Lab2() {
                             <button onClick={() => goToHome(true)} >login</button>
                             <p className="message">Not registered? <span onClick={() => chickIfLogin()}>Create an account</span></p>
                         </div>
-
                     </div>
                 ) : (
                     <div className="login-page">
